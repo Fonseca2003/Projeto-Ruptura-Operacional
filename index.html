@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visão de Gôndola — Mart Minas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --verde: #0E9B4F;
+    --verde-escuro: #0B3D24;
+    --verde-pale: #E4F2E9;
+    --vermelho: #DC2626;
+    --vermelho-escuro: #8F1414;
+    --ouro: #B8902E;
+    --ouro-pale: #F3E8D2;
+    --bg: #FAF8F3;
+    --bg-card: #FFFFFF;
+    --grafite: #1A2420;
+    --grafite-suave: #4A5650;
+    --linha: rgba(26,36,32,0.10);
+    --serif: "Fraunces", serif;
+    --sans: "Inter", sans-serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--grafite); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  a{ color:inherit; }
+  ::selection{ background:var(--verde); color:#fff; }
+  :focus-visible{ outline:3px solid var(--ouro); outline-offset:3px; border-radius:4px; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+
+  /* ===================== NAV ===================== */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(250,248,243,0.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--linha);
+  }
+  .nav-inner{ max-width:1080px; margin:0 auto; padding:13px 32px; display:flex; align-items:center; justify-content:space-between; }
+  .nav-logo{ height:32px; display:block; }
+  .nav-links{ display:flex; gap:24px; font-size:13px; font-weight:600; }
+  .nav-links a{ text-decoration:none; color:var(--grafite-suave); }
+  .nav-links a:hover{ color:var(--verde-escuro); }
+  @media (max-width:700px){ .nav-links{ display:none; } }
+
+  /* ===================== HERO ===================== */
+  .hero{ padding:136px 0 0; position:relative; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--verde-escuro); font-weight:700; display:inline-flex; align-items:center; gap:9px;
+  }
+  .eyebrow::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--vermelho); display:inline-block; }
+  .hero h1{
+    font-family:var(--serif); font-weight:600; font-size:clamp(34px,4.6vw,54px);
+    line-height:1.08; letter-spacing:-0.01em; max-width:780px; margin-top:16px;
+  }
+  .hero-meta{ display:flex; gap:32px; flex-wrap:wrap; margin-top:38px; padding-top:24px; border-top:1px solid var(--linha); }
+  .hero-meta-item .label{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--grafite-suave); opacity:.75; }
+  .hero-meta-item .value{ font-family:var(--serif); font-weight:600; font-size:19px; margin-top:4px; }
+
+  .shelf-stage{ margin-top:44px; }
+  .shelf{ position:relative; height:62px; border-bottom:3px solid var(--grafite); display:flex; align-items:flex-end; }
+  .shelf:first-child{ border-top:3px solid var(--grafite); }
+  .slot{ flex:1; height:74%; margin:0 3px; border-radius:5px 5px 0 0; align-self:flex-end; }
+  .slot.full{ background:linear-gradient(180deg,#1AAE5E,var(--verde)); }
+  .slot.empty{ background:repeating-linear-gradient(135deg, rgba(220,38,38,0.10) 0 8px, transparent 8px 16px); border:2px dashed rgba(220,38,38,0.5); height:74%; }
+  .shelf-caption{ font-family:var(--mono); font-size:11px; color:var(--grafite-suave); padding:24px 2px 4px; }
+
+  /* ===================== SECTIONS ===================== */
+  section{ position:relative; }
+  .section-pad{ padding:80px 0; }
+  .band-light{ background:var(--bg); }
+  .band-dark{ background:var(--verde-escuro); color:#EFF6EF; }
+  .band-cream{ background:#F2EDE0; }
+
+  .kicker{ font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--verde-escuro); margin-bottom:12px; display:block; }
+  .band-dark .kicker{ color:#7FD9A6; }
+  h2.title{ font-family:var(--serif); font-weight:600; font-size:clamp(26px,3.2vw,36px); line-height:1.12; max-width:700px; }
+  .lede{ font-size:16px; color:var(--grafite-suave); max-width:660px; margin-top:14px; line-height:1.6; }
+  .band-dark .lede{ color:#C9E4D3; }
+
+  /* ===================== IMPACT ===================== */
+  .impact-grid{ display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:1px; background:var(--linha); margin-top:42px; border-radius:16px; overflow:hidden; border:1px solid var(--linha); }
+  .impact-cell{ background:var(--bg-card); padding:30px 28px; }
+  .impact-cell.feature{ background:var(--verde-escuro); color:#fff; }
+  .impact-num{ font-family:var(--serif); font-weight:700; font-size:clamp(28px,3.4vw,42px); line-height:1; }
+  .impact-cell.feature .impact-num{ color:#9BE8B8; }
+  .impact-sub{ font-family:var(--mono); font-size:11px; color:var(--grafite-suave); margin-top:8px; }
+  .impact-cell.feature .impact-sub{ color:#BFE6CC; }
+  @media (max-width:820px){ .impact-grid{ grid-template-columns:1fr; } }
+
+  /* ===================== STAT BLOCK ===================== */
+  .stat-block{ margin-top:40px; display:flex; flex-direction:column; gap:0; }
+  .stat-row{ display:flex; align-items:baseline; gap:18px; padding:18px 0; border-bottom:1px solid var(--linha); }
+  .stat-row .big{ font-family:var(--serif); font-weight:700; font-size:32px; color:var(--vermelho-escuro); min-width:120px; }
+  .stat-row .desc{ font-size:14px; color:var(--grafite-suave); line-height:1.5; }
+
+  /* ===================== FLOW (solução) ===================== */
+  .flow{ margin-top:40px; display:flex; flex-direction:column; gap:0; }
+  .flow-item{ display:flex; gap:16px; padding:16px 0; border-bottom:1px solid var(--linha); align-items:flex-start; }
+  .flow-item:last-child{ border-bottom:none; }
+  .flow-dot{ width:8px; height:8px; border-radius:50%; background:var(--verde); margin-top:8px; flex-shrink:0; }
+  .flow-item p{ font-size:15px; color:var(--grafite-suave); line-height:1.6; }
+
+  /* ===================== CASES ===================== */
+  .case-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:40px; }
+  @media (max-width:820px){ .case-grid{ grid-template-columns:1fr; } }
+  .case-card{ background:#fff; border-radius:16px; border:1px solid var(--linha); padding:28px 26px; display:flex; flex-direction:column; gap:14px; }
+  .case-head h3{ font-family:var(--serif); font-weight:600; font-size:20px; }
+  .case-card p{ font-size:14px; color:var(--grafite-suave); line-height:1.6; }
+  .case-result{ display:flex; align-items:baseline; gap:10px; background:var(--verde-pale); border-radius:10px; padding:14px 16px; }
+  .case-result .num{ font-family:var(--serif); font-weight:700; font-size:26px; color:var(--verde-escuro); }
+  .case-result .txt{ font-size:13px; color:var(--grafite-suave); line-height:1.4; }
+  .case-card .src{ font-size:11px; font-family:var(--mono); color:var(--grafite-suave); opacity:.7; word-break:break-all; }
+
+  /* ===================== ROADMAP ===================== */
+  .phase{ display:grid; grid-template-columns:38px 1fr; gap:20px; padding:22px 0; border-bottom:1px solid var(--linha); }
+  .phase:first-child{ padding-top:40px; }
+  .phase:last-child{ border-bottom:none; }
+  .phase-dot{ width:38px; height:38px; border-radius:50%; background:var(--verde-escuro); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:14px; flex-shrink:0; }
+  .phase-dot.muted{ background:var(--bg-card); border:2px solid var(--verde); color:var(--verde-escuro); }
+  .phase-body h3{ font-family:var(--serif); font-weight:600; font-size:19px; }
+  .phase-body .tag{ font-family:var(--mono); font-size:11px; color:var(--verde-escuro); font-weight:700; margin-left:10px; }
+  .phase-body p{ font-size:14px; color:var(--grafite-suave); margin-top:6px; line-height:1.55; max-width:640px; }
+
+  /* ===================== FINANCE TABLE ===================== */
+  table.fin{ width:100%; border-collapse:collapse; font-family:var(--mono); font-size:13px; margin-top:40px; }
+  table.fin tr{ border-bottom:1px solid rgba(255,255,255,0.12); }
+  table.fin td{ padding:13px 4px; }
+  table.fin td:first-child{ color:#BFE6CC; }
+  table.fin td:last-child{ text-align:right; font-weight:700; color:#fff; }
+  table.fin tr.hl td{ color:#9BE8B8 !important; font-weight:700; font-size:14.5px; }
+
+  .payback-note{ font-size:13.5px; color:#C9E4D3; margin-top:24px; line-height:1.6; max-width:680px; }
+
+  /* ===================== VIABILIDADE ===================== */
+  .checklist{ margin-top:40px; display:flex; flex-direction:column; gap:0; }
+  .check-item{ display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--linha); }
+  .check-item:last-child{ border-bottom:none; }
+  .check-dot{ width:7px; height:7px; border-radius:50%; background:var(--ouro); margin-top:7px; flex-shrink:0; }
+  .check-item p{ font-size:14px; color:var(--grafite-suave); line-height:1.55; }
+
+  /* ===================== FUTURE TABLE ===================== */
+  .future-grid{ margin-top:40px; display:flex; flex-direction:column; border:1px solid var(--linha); border-radius:14px; overflow:hidden; }
+  .future-row{ display:grid; grid-template-columns:260px 1fr; gap:20px; padding:20px 24px; background:#fff; border-bottom:1px solid var(--linha); }
+  .future-row:last-child{ border-bottom:none; }
+  .future-row:nth-child(even){ background:#FBFAF6; }
+  .future-row .ftitle{ font-family:var(--serif); font-weight:600; font-size:15.5px; color:var(--verde-escuro); }
+  .future-row .fdesc{ font-size:13.5px; color:var(--grafite-suave); line-height:1.5; }
+  @media (max-width:680px){ .future-row{ grid-template-columns:1fr; gap:6px; } }
+
+  /* ===================== VALOR ===================== */
+  .value-card{
+    margin-top:40px; background:linear-gradient(135deg, var(--verde) 0%, var(--verde-escuro) 100%);
+    border-radius:18px; padding:38px 40px; color:#fff;
+  }
+  .value-quote{ font-family:var(--serif); font-weight:500; font-size:clamp(19px,2.1vw,24px); line-height:1.45; max-width:760px; }
+
+  /* ===================== CRITÉRIOS ===================== */
+  .criteria-list{ margin-top:40px; display:flex; flex-direction:column; gap:0; }
+  .criteria-item{ display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--linha); }
+  .criteria-item:last-child{ border-bottom:none; }
+  .criteria-check{ width:20px; height:20px; border-radius:50%; border:2px solid var(--verde); flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; color:var(--verde-escuro); font-size:11px; font-weight:700; }
+  .criteria-item p{ font-size:14px; line-height:1.55; color:var(--grafite-suave); }
+
+  /* ===================== FOOTER ===================== */
+  .footer{ padding:48px 0 36px; background:var(--grafite); color:#cfd6d2; }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .footer img{ height:26px; filter:brightness(0) invert(1); opacity:.9; }
+  .footer-text{ font-size:12px; color:#8d9893; }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (max-width:600px){
+    .wrap{ padding:0 20px; }
+    .nav-inner{ padding:13px 20px; }
+    .section-pad{ padding:56px 0; }
+    .value-card{ padding:28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <img src="assets/logo.png" alt="Mart Minas — Atacado & Varejo" class="nav-logo">
+    <div class="nav-links">
+      <a href="#problema">Problema</a>
+      <a href="#solucao">Solução</a>
+      <a href="#cases">Cases</a>
+      <a href="#piloto">Piloto</a>
+      <a href="#financeiro">Financeiro</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Operações (Lojas) · em parceria com TI</span>
+    <h1>Ruptura operacional de gôndola não identificada a tempo</h1>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="label">Meta do projeto</div>
+        <div class="value">Reduzir 0,3 p.p. (6% → 5,7%)</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">Impacto financeiro estimado</div>
+        <div class="value" style="color:var(--verde-escuro)">≈ R$ 30.000.000/ano</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">Investimento de hardware</div>
+        <div class="value">R$ 7.200.000 (80 lojas)</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">Payback estimado</div>
+        <div class="value">&lt; 3 meses</div>
+      </div>
+    </div>
+
+    <div class="shelf-stage">
+      <div class="shelf">
+        <div class="slot full"></div><div class="slot full"></div><div class="slot empty"></div>
+        <div class="slot full"></div><div class="slot full"></div><div class="slot full"></div>
+        <div class="slot empty"></div><div class="slot full"></div><div class="slot full"></div>
+        <div class="slot full"></div><div class="slot empty"></div><div class="slot full"></div>
+      </div>
+      <div class="shelf-caption">Abrangência: todas as lojas</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== PROBLEMA ===================== -->
+<section class="band-light section-pad" id="problema">
+  <div class="wrap">
+    <span class="kicker reveal">Contexto e problema</span>
+    <h2 class="title reveal">Ruptura operacional</h2>
+    <p class="lede reveal">Quando o produto existe em estoque, mas não está disponível na gôndola para o cliente comprar. Hoje é de 6% ao ano na rede, gerando um prejuízo estimado de R$ 600 milhões.</p>
+
+    <div class="stat-block">
+      <div class="stat-row reveal">
+        <div class="big">Diariamente</div>
+        <div class="desc">esse número reflete venda perdida em centenas de pontos de gôndola, em 80 lojas.</div>
+      </div>
+      <div class="stat-row reveal">
+        <div class="big">Sem mecanismo</div>
+        <div class="desc">não existe hoje um mecanismo de detecção em tempo real.</div>
+      </div>
+      <div class="stat-row reveal" style="border-bottom:none;">
+        <div class="big">Inspeção visual</div>
+        <div class="desc">a identificação depende de inspeção visual humana, que é lenta, inconsistente entre lojas, e não escala para o volume de itens e corredores de uma operação desse porte.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOLUÇÃO ===================== -->
+<section class="band-cream section-pad" id="solucao">
+  <div class="wrap">
+    <span class="kicker reveal">Solução proposta</span>
+    <h2 class="title reveal">Câmeras com IA na frente de gôndola</h2>
+    <p class="lede reveal">Instalação de câmeras nas frentes de gôndola, com leitura por inteligência artificial (visão computacional) que identifica automaticamente espaços vazios ou ruptura operacional, e envia alerta em tempo real para um aplicativo usado pela equipe de loja, indicando o local exato (corredor, gôndola, posição) onde a ação é necessária.</p>
+
+    <div class="flow">
+      <div class="flow-item reveal">
+        <div class="flow-dot"></div>
+        <p>Em vez de depender de ronda manual periódica, a equipe é avisada no momento em que a ruptura ocorre, podendo agir imediatamente.</p>
+      </div>
+      <div class="flow-item reveal">
+        <div class="flow-dot"></div>
+        <p>O app indica a localização exata do problema, eliminando tempo de busca e tornando a ação mais ágil — conectando diretamente com o valor de agilidade e disciplina nas rotinas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CASES ===================== -->
+<section class="band-light section-pad" id="cases">
+  <div class="wrap">
+    <span class="kicker reveal">Cases de sucesso</span>
+    <h2 class="title reveal">Referências de mercado</h2>
+
+    <div class="case-grid">
+      <div class="case-card reveal">
+        <div class="case-head"><h3>Coca-Cola Amatil</h3></div>
+        <p>Uma das maiores engarrafadoras da Coca-Cola na região da Ásia-Pacífico utilizou inteligência artificial e câmeras/reconhecimento de imagem nas frentes de gôndolas e geladeiras comerciais para garantir que os refrigerantes estivessem sempre disponíveis e na disposição correta do planograma.</p>
+        <div class="case-result">
+          <span class="num">+1,5%</span>
+          <span class="txt">de aumento em fatia de mercado (market share) na região em apenas cinco meses após a integração da tecnologia de visão computacional, devido à correção ágil de falhas de abastecimento.</span>
+        </div>
+        <span class="src">researchgate.net/publication/350994328</span>
+      </div>
+
+      <div class="case-card reveal">
+        <div class="case-head"><h3>Morrisons (Reino Unido)</h3></div>
+        <p>A grande rede de supermercados britânica Morrisons implementou uma ampla rede de câmeras baseadas em visão computacional da empresa Focal Systems ao longo de suas lojas. O objetivo principal era erradicar o estoque fantasma e avisar os funcionários no exato momento em que um espaço ficava vazio na prateleira.</p>
+        <div class="case-result">
+          <span class="num">−50%</span>
+          <span class="txt">de redução nas taxas de falta de produto na gôndola, ativando processos rápidos de reabastecimento.</span>
+        </div>
+        <span class="src">digisoftsolution.com/blog/computer-vision-in-retail · photonics.com · datavlab.ai</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PILOTO ===================== -->
+<section class="band-cream section-pad" id="piloto">
+  <div class="wrap">
+    <span class="kicker reveal">Piloto sugerido (fases de implantação)</span>
+    <h2 class="title reveal">Fases de implantação</h2>
+
+    <div class="reveal">
+      <div class="phase">
+        <div class="phase-dot">1</div>
+        <div class="phase-body">
+          <h3>Piloto em 1 corredor<span class="tag">SEM CUSTO PARA A EMPRESA</span></h3>
+          <p>Implantação em um único corredor de uma loja, com custo de instalação e licença provido pelo prestador de serviço durante o período de teste — sem investimento da empresa nesta fase. Objetivo: validar precisão da detecção, tempo de resposta do alerta, e usabilidade do app pela equipe de loja.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-dot muted">2</div>
+        <div class="phase-body">
+          <h3>Loja-piloto completa<span class="tag">R$ 90 MIL</span></h3>
+          <p>Expansão para todos os corredores de uma loja, ainda em caráter de teste, para validar o modelo de custo (R$ 90 mil de instalação) e o ganho real de redução de ruptura comparado ao histórico da própria loja.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-dot muted">3</div>
+        <div class="phase-body">
+          <h3>Expansão gradual<span class="tag">10–15 LOJAS POR VEZ</span></h3>
+          <p>Após validação de resultado na loja-piloto, expansão por lotes (ex.: 10-15 lojas por vez), priorizando lojas com maior índice histórico de ruptura, até cobrir as 80 lojas da rede.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINANCEIRO ===================== -->
+<section class="band-dark section-pad" id="financeiro">
+  <div class="wrap">
+    <span class="kicker reveal">Viabilidade financeira</span>
+    <h2 class="title reveal" style="color:#fff;">Viabilidade financeira</h2>
+
+    <table class="fin reveal">
+      <tr><td>Ruptura operacional atual</td><td>6% ao ano</td></tr>
+      <tr><td>Prejuízo anual atual associado</td><td>R$ 600.000.000</td></tr>
+      <tr><td>Prejuízo por ponto percentual de ruptura</td><td>R$ 100.000.000 (600M ÷ 6 p.p.)</td></tr>
+      <tr><td>Meta de redução do projeto</td><td>0,3 p.p. (de 6% para 5,7%)</td></tr>
+      <tr class="hl"><td>Ganho financeiro anual estimado</td><td>R$ 30.000.000/ano (100M × 0,3)</td></tr>
+      <tr><td>Custo por câmera</td><td>R$ 1.200</td></tr>
+      <tr><td>Custo de instalação por loja</td><td>R$ 90.000 (~75 câmeras/loja)</td></tr>
+      <tr><td>Número de lojas da rede</td><td>80 lojas</td></tr>
+      <tr class="hl"><td>Investimento total de instalação (rede completa)</td><td>R$ 7.200.000</td></tr>
+      <tr><td>Licença mensal do sistema (por loja ou por câmera)</td><td>em aberto — a definir com o prestador de serviço</td></tr>
+    </table>
+
+    <p class="payback-note reveal">Payback estimado: considerando apenas o custo de instalação (R$ 7,2 milhões) frente ao ganho anual de R$ 30 milhões, o investimento se paga em menos de 3 meses. O custo da licença mensal deve ser incorporado a essa conta assim que cotado, mas dado o tamanho do ganho anual, há margem considerável antes de comprometer o retorno do projeto.</p>
+
+    <p class="payback-note reveal" style="margin-top:14px; opacity:.85;">Obs.: custos levantados em reunião com a empresa Intelbras, utilizando uma tecnologia já desenvolvida por eles.</p>
+  </div>
+</section>
+
+<!-- ===================== VIABILIDADE ===================== -->
+<section class="band-light section-pad">
+  <div class="wrap">
+    <span class="kicker reveal">Pontos de viabilidade observados</span>
+    <h2 class="title reveal">Condições de implantação</h2>
+    <p class="lede reveal">Pontos levantados como condição de implantação, para garantir que o sistema funcione na operação real da loja, sem gerar risco ou conflito:</p>
+
+    <div class="checklist">
+      <div class="check-item reveal"><div class="check-dot"></div><p>Posicionamento das câmeras não pode interferir na circulação e manobra de empilhadeiras e paleteiras nos corredores, especialmente em horários de reposição.</p></div>
+      <div class="check-item reveal"><div class="check-dot"></div><p>Conformidade com a LGPD: o sistema deve capturar e processar apenas imagem de produto e gôndola, sem identificar ou registrar rosto de clientes ou colaboradores — a análise deve ser de espaço/produto, não de pessoa.</p></div>
+      <div class="check-item reveal"><div class="check-dot"></div><p>Necessidade de validar com o prestador de serviço onde os dados são processados e armazenados (local x nuvem) e por quanto tempo, para garantir aderência à política de privacidade da empresa.</p></div>
+      <div class="check-item reveal"><div class="check-dot"></div><p>Conectividade de rede nas lojas precisa suportar o tráfego de câmeras em tempo real, especialmente em lojas com infraestrutura mais antiga.</p></div>
+      <div class="check-item reveal"><div class="check-dot"></div><p>Necessidade de treinamento rápido da equipe de loja para uso do app de alerta, garantindo adoção desde a Fase 0.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EVOLUÇÕES FUTURAS ===================== -->
+<section class="band-cream section-pad">
+  <div class="wrap">
+    <span class="kicker reveal">Evoluções futuras (visão de longo prazo)</span>
+    <h2 class="title reveal">Após a maturidade da detecção de ruptura, a mesma infraestrutura de câmeras e IA pode evoluir para outras camadas de valor</h2>
+
+    <div class="future-grid reveal">
+      <div class="future-row">
+        <div class="ftitle">Identificação de produto e posição correta</div>
+        <div class="fdesc">Reconhece se o produto está no local correto do planograma, conectando com Gestão de Categorias para identificar falhas de layout.</div>
+      </div>
+      <div class="future-row">
+        <div class="ftitle">Conferência de preço</div>
+        <div class="fdesc">Verifica se o produto está precificado na gôndola e, posteriormente, conecta com o banco de dados para confirmar se o preço exibido está correto frente ao sistema.</div>
+      </div>
+      <div class="future-row">
+        <div class="ftitle">Análise de fluxo de corredores</div>
+        <div class="fdesc">Avalia o fluxo e tempo de permanência de clientes nos corredores, gerando dados para otimização de layout e exposição de produtos.</div>
+      </div>
+      <div class="future-row">
+        <div class="ftitle">Eficiência de promotores</div>
+        <div class="fdesc">Avalia presença, tempo de atuação e cobertura de promotores de marca nas gôndolas, trazendo visibilidade de produtividade hoje pouco mensurada.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VALOR ===================== -->
+<section class="band-light section-pad">
+  <div class="wrap">
+    <span class="kicker reveal">Conexão com valor Mart Minas</span>
+    <div class="value-card reveal">
+      <p class="value-quote">"Temos agilidade e disciplina nas rotinas e evitamos desperdícios." O projeto substitui a ronda manual de gôndola — lenta e inconsistente — por um alerta imediato e padronizado em todas as lojas, eliminando o desperdício de venda perdida por ruptura não detectada a tempo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CRITÉRIOS ===================== -->
+<section class="band-cream section-pad">
+  <div class="wrap">
+    <span class="kicker reveal">Critérios de sucesso</span>
+    <h2 class="title reveal">Critérios de sucesso</h2>
+
+    <div class="criteria-list">
+      <div class="criteria-item reveal"><div class="criteria-check">✓</div><p>Redução mensurável da taxa de ruptura na loja-piloto frente ao seu próprio histórico antes da Fase 2 de expansão.</p></div>
+      <div class="criteria-item reveal"><div class="criteria-check">✓</div><p>Tempo médio entre a ocorrência da ruptura e a ação da equipe de loja, comparando antes e depois do alerta automático.</p></div>
+      <div class="criteria-item reveal"><div class="criteria-check">✓</div><p>Adesão da equipe de loja ao uso do app de alerta na rotina diária.</p></div>
+      <div class="criteria-item reveal"><div class="criteria-check">✓</div><p>Validação dos pontos de viabilidade (LGPD, interferência com empilhadeiras, infraestrutura de rede) sem incidentes na Fase 0 e 1.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <img src="assets/logo.png" alt="Mart Minas">
+    <p class="footer-text">Operações (Lojas) — em parceria com TI</p>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
